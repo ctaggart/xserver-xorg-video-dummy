@@ -55,6 +55,9 @@
 #include <X11/extensions/xf86dgaproto.h>
 #endif
 
+/* Needed for fixing pointer limits on resize */
+#include "inputstr.h"
+
 /* Mandatory functions */
 static const OptionInfoRec *	DUMMYAvailableOptions(int chipid, int busid);
 static void     DUMMYIdentify(int flags);
@@ -713,6 +716,26 @@ DUMMYSwitchMode(SWITCH_MODE_ARGS_DECL)
         RRTellChanged(pScrn->pScreen);
     }
 #endif
+    //ensure the screen dimensions are also updated:
+    pScrn->pScreen->width = mode->HDisplay;
+    pScrn->pScreen->height = mode->VDisplay;
+    pScrn->virtualX = mode->HDisplay;
+    pScrn->virtualY = mode->VDisplay;
+    pScrn->frameX1 = mode->HDisplay;
+    pScrn->frameY1 = mode->VDisplay;
+
+    //ensure the pointer uses the new limits too:
+    DeviceIntPtr pDev;
+    SpritePtr pSprite;
+    for (pDev = inputInfo.devices; pDev; pDev = pDev->next) {
+        if (pDev->spriteInfo!=NULL && pDev->spriteInfo->sprite!=NULL) {
+            pSprite = pDev->spriteInfo->sprite;
+            pSprite->hotLimits.x2 = mode->HDisplay;
+            pSprite->hotLimits.y2 = mode->VDisplay;
+            pSprite->physLimits.x2 = mode->HDisplay;
+            pSprite->physLimits.y2 = mode->VDisplay;
+        }
+    }
     return TRUE;
 }
 
