@@ -1,3 +1,13 @@
+xserver-xorg-video-dummy (1:0.3.7-1.1) UNRELEASED; urgency=medium
+
+  * Non-maintainer upload.
+  * Applied Xpra v0.17 patches:
+    - 0002-Constant-DPI.patch
+    - 0003-fix-pointer-limits.patch 
+    - 0004-honour-dac.patch
+
+ -- Cameron Taggart <cameron.taggart@gmail.com>  Tue, 31 May 2016 16:52:10 +0000
+
 xserver-xorg-video-dummy (1:0.3.7-1) unstable; urgency=low
 
   [ Maarten Lankhorst ]
