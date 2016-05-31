@@ -51,6 +51,7 @@ typedef struct dummyRec
     /* options */
     OptionInfoPtr Options;
     Bool swCursor;
+    Bool constantDPI;
     /* proc pointer */
     CloseScreenProcPtr CloseScreen;
     xf86CursorInfoPtr CursorInfo;
